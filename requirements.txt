@@ -10,6 +10,6 @@ requests==2.31.0
 rich==13.3.5
 urllib3==1.26.16
 websocket==0.2.1
-websocket-client==1.5.2
+websocket-client==0.57.0
 zope.event==4.6
 zope.interface==6.0
