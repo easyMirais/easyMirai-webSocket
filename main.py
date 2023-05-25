@@ -15,7 +15,7 @@ class Mirai:
         self.uri = uri + ":" + str(port)
         self.verifyKey = verifyKey
         self.qq = qq
-        pass
+        self.ws = None
 
     def onOpen(self):
         pass
@@ -27,12 +27,12 @@ class Mirai:
         pass
 
     def start(self):
-        ws = websocket.WebSocketApp(
+        self.ws = websocket.WebSocketApp(
             "ws://" + self.uri + "/all?verifyKey=" + self.verifyKey + "&qq=" + str(self.qq),
             on_open=self.onOpen,
             on_message=self.onMessage,
             on_close=self.onClose)
-        ws.run_forever()
+        self.ws.run_forever()
 
 
 if __name__ == '__main__':
