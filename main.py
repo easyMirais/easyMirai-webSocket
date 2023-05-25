@@ -18,12 +18,15 @@ class Mirai:
         self.ws = None
 
     def onOpen(self):
+        # 连接成功Mirai服务器时调用
         pass
 
     def onMessage(self, message):
+        # 接收到消息时调用
         pass
 
     def onClose(self):
+        # 关闭连接时调用
         pass
 
     def start(self):
