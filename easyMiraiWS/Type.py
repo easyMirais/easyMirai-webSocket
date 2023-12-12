@@ -1,12 +1,11 @@
 class MessageType:  # 信息类型
-    @property
-    def plan(self):
+    def plan(self, message: str):
         return "plan"
 
 
 class TargetType:  # 目标类型
-    @property
-    def friend(self):
+
+    def friend(self, target: int):
         return "friend"
 
 

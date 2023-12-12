@@ -1,7 +1,7 @@
 import json
 
 import websockets
-from easyMiraiWS import MessageType, TargetType, ReturnType
+from easyMiraiWS.Type import MessageType, TargetType, ReturnType
 
 
 # from easyMiraiWS.sendFunction.type import SendTypeFunction
