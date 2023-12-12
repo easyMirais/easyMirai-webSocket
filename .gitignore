@@ -156,6 +156,7 @@ cython_debug/
 
 .DS_Store
 
+main.py
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
