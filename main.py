@@ -5,38 +5,18 @@
 # @File      : main.py
 # @Project   : easyMirai-webSocket
 # @Uri       : https://sfnco.com.cn/
+import easyMiraiWS
+from easyMiraiWS import Mirai
+from easyMiraiWS import targetType, messageType, returnType
 
 
-import websocket
-
-
-class Mirai:
-    def __init__(self, uri: str, port: int, verifyKey: str, qq: int):
-        self.uri = uri + ":" + str(port)
-        self.verifyKey = verifyKey
-        self.qq = qq
-        self.ws = None
-
-    def onOpen(self):
-        # 连接成功Mirai服务器时调用
-        pass
-
-    def onMessage(self, message):
-        # 接收到消息时调用
-        pass
-
-    def onClose(self):
-        # 关闭连接时调用
-        pass
-
-    def start(self):
-        self.ws = websocket.WebSocketApp(
-            "ws://" + self.uri + "/all?verifyKey=" + self.verifyKey + "&qq=" + str(self.qq),
-            on_open=self.onOpen,
-            on_message=self.onMessage,
-            on_close=self.onClose)
-        self.ws.run_forever()
+async def MiraiRun():  # 运行主类
+    easy_mirai = Mirai(uri="localhost", port=8080, verifyKey="123456789", qq=123456789)
+    # 向好友987654321发送文字消息hello world并返回一个Dict类型的值
+    message = await easy_mirai.send(targetType.Friend(987654321), messageType.Plain("Hello World"), returnType.Dict)
+    print(message)
+    pass
 
 
 if __name__ == '__main__':
-    Mirai(uri="127.0.0.1", port=8080, verifyKey="1234567890", qq=1234567890).start()
+    easyMiraiWS.run(MiraiRun)
