@@ -3,11 +3,12 @@ import os
 from easyMirais.utils.function import File
 
 defaultConfig = {
-    "botURI_value": "ws://127.0.0.1:8080/all",
+    "botURI_value": "127.0.0.1:8080",
     "botID_value": 0,
     "botKey_value": "",
     "kit_name": "",
-    "echo_value": True
+    "echo_value": True,
+    "session": ""
 }
 
 

@@ -1,5 +1,8 @@
 import json
 import os
+from concurrent.futures import ThreadPoolExecutor
+
+import websocket
 
 from easyMirais.utils.loggerColor import DEBUG, INFO, WARNING, ERROR
 
@@ -32,6 +35,21 @@ def commandData(syncId: str = "", command: str = "", content: dict = None) -> st
             }
         }
     )
+
+
+def getSession(pool_object: ThreadPoolExecutor, addr: str, bot_id: int, bot_key: str, kit_name: str):
+    # websocket.enableTrace(True)
+    def discoverData(ws, message):
+        message = json.loads(message)["data"]
+        if message["code"] == 0:
+            File("./config/" + kit_name).edit("/config.json", "session", message["session"])
+        ws.close()
+
+    get_session = lambda addr_s, bot_keys, bot_ids: (
+        websocket.WebSocketApp("ws://" + addr_s + "/all?verifyKey=" + bot_keys + "&qq=" + bot_ids,
+                               on_message=discoverData
+                               )).run_forever()
+    return pool_object.submit(get_session, addr, bot_key, str(bot_id))
 
 
 class File:
