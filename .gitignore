@@ -159,8 +159,8 @@ cython_debug/
 main.py
 
 # Plugins kit
-config
-plugins
+config/*
+plugins/*
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
