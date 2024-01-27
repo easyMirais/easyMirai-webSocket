@@ -10,7 +10,7 @@ class FriendMessageType:
 
     def plain(self, text):
         self.log.info(text, "->", self.send_target, "正常", "(Plain / Friend)")
-        print(self.send_target, text)
+        # print(self.send_target, text)
 
     def image(self):
         pass

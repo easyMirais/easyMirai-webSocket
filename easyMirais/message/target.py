@@ -1,7 +1,7 @@
 from easyMirais.message.type import FriendMessageType, GroupMessageType
 
 
-class Message:
+class _MessageTarget:
     def __init__(self, kit_config: dict):
         self.kit_config = kit_config
         pass

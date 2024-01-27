@@ -24,6 +24,10 @@ class Logger:
         if self.kitConfig["echo_value"]:
             self.Logger.log("[ WARNING", "/", self.kitConfig["kit_name"], "]:", *obj, style=WARNING())
 
+    def error(self, *obj):
+        if self.kitConfig["echo_value"]:
+            self.Logger.log("[ ERROR", "/", self.kitConfig["kit_name"], "]:", *obj, style=ERROR())
+
 
 def commandData(syncId: str = "", command: str = "", content: dict = None) -> str:
     return json.dumps(
@@ -50,6 +54,31 @@ def getSession(pool_object: ThreadPoolExecutor, addr: str, bot_id: int, bot_key:
                                on_message=discoverData
                                )).run_forever()
     return pool_object.submit(get_session, addr, bot_key, str(bot_id))
+
+
+def startKitWebsocket(function, log_object: Logger):
+    func_status = 0
+    try:
+        function.open
+    except AttributeError:
+        func_status = func_status + 1
+
+    try:
+        function.message
+    except AttributeError:
+        func_status = func_status + 2
+        pass
+
+    if func_status == 0:
+        print("all")
+    elif func_status == 1:
+        print("only message")
+        pass
+    elif func_status == 2:
+        print("only open")
+        pass
+    elif func_status == 3:
+        print("no all")
 
 
 class File:
