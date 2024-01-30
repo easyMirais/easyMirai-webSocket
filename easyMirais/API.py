@@ -1,9 +1,9 @@
-from rich.console import Console
+from websocket import WebSocketApp
 
-from easyMirais.message.target import _MessageTarget
+from easyMirais.message.target import MessageTarget
 
-from easyMirais.utils.function import Logger
-from easyMirais.utils.function import File
+from easyMirais.logger.logger import Logger
+from easyMirais.file.file import File
 
 
 class ServerConfig:
@@ -12,11 +12,10 @@ class ServerConfig:
         self._botSession_value = ""
         self._botURI_value = ""
         self._file = File("./config/" + file_name)
-        self._Logger = Console()
 
     @property
     def log(self):
-        return Logger(self._Logger, self._file.read("/config.json"))
+        return Logger(self._file.read("/config.json"))
 
 
 class Init(ServerConfig):
@@ -47,10 +46,6 @@ class Plugins(Init):
     def session(self) -> str:
         return self._file.read("/config.json")["session"]
 
-    @property
-    def send(self) -> _MessageTarget:
-        return _MessageTarget(kit_config=self._file.read("/config.json"))
-
     def get(self):
         pass
 
@@ -62,8 +57,30 @@ class Plugins(Init):
 
 
 class Message(Plugins):
+    def __init__(self, file_name: str, ws: WebSocketApp, message):
+        super().__init__(file_name)
+        self.ws = ws
+        self.message = message
+
+    @property
+    def send(self) -> MessageTarget:
+        return MessageTarget(kit_config=self._file.read("/config.json"), ws=self.ws)
+
     pass
 
 
 class Open(Plugins):
+    def __init__(self, file_name: str, ws: WebSocketApp):
+        super().__init__(file_name)
+        self.ws = ws
+
+    pass
+
+
+class ReCall(Plugins):
+    def __init__(self, file_name: str, ws: WebSocketApp, message):
+        super().__init__(file_name)
+        self.ws = ws
+        self.message = message
+
     pass

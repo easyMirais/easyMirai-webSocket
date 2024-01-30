@@ -1,12 +1,11 @@
 import importlib
 from concurrent.futures import ThreadPoolExecutor
 
-from rich.console import Console
-import websocket
-
-from easyMirais.utils.loadPlugins import listPlugins
+from easyMirais.plugins.plugins import listPlugins
 from easyMirais.API import Plugins
-from easyMirais.utils.function import File, Logger, getSession, startKitWebsocket
+from easyMirais.websockets.websockets import getSession
+from easyMirais.logger.logger import Logger
+from easyMirais.file.file import File
 
 
 class Init:
@@ -14,10 +13,9 @@ class Init:
         self.pluginFile = []  # 存储插件文件名称
         self.pluginFunction = []  # 存储插件函数
         self.pluginStatus = []  # 存储插件状态
-        self.Plugins = Plugins
         self.echo_server_log = True
         self.pool = ThreadPoolExecutor(16)
-        self.logger = Logger(Console(), {"kit_name": "Server", "echo_value": self.echo_server_log})
+        self.logger = Logger({"kit_name": "Server", "echo_value": self.echo_server_log})
 
 
 class Mirai(Init):
@@ -32,7 +30,7 @@ class Mirai(Init):
     def _start_load_plugins(self):
         for index, loadPluginsFile in enumerate(self._loadPlugins()):
             try:
-                loadPluginsFile.init(self.Plugins(self.pluginFile[index]))
+                loadPluginsFile.init(Plugins(self.pluginFile[index]))
             except TypeError:
                 loadPluginsFile.init()
             except AttributeError:
@@ -46,8 +44,6 @@ class Mirai(Init):
                 break
             File("./config/" + self.pluginFile[index]).edit("/config.json", "kit_name", self.pluginFile[index])
             kit_config = File("./config/" + self.pluginFile[index]).read("/config.json")
-            getSession(self.pool, kit_config["botURI_value"], kit_config["botID_value"], kit_config["botKey_value"],
-                       kit_config["kit_name"]).result()
             self.logger.info(
                 "插件包名:",
                 kit_config["kit_name"],
@@ -56,6 +52,8 @@ class Mirai(Init):
                 "是否输出日志:",
                 kit_config["echo_value"],
             )
+            getSession(self.pool, kit_config["botURI_value"], kit_config["botID_value"], kit_config["botKey_value"],
+                       kit_config["kit_name"], loadPluginsFile)
 
             # try:
             #     function_list["message"] = loadPluginsFile.message(self.Plugins(self.pluginFile[index]))
@@ -67,7 +65,7 @@ class Mirai(Init):
             #     self.Logger.warning(
             #         "插件包", self.pluginFile[index], "未发现 message 函数",
             #     )
-            startKitWebsocket(loadPluginsFile, self.logger)
+            # startKitWebsocket(loadPluginsFile, self.logger)
 
     def _loadPlugins(self):
         self.pluginFile = listPlugins()

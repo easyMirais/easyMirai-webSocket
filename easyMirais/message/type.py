@@ -1,16 +1,30 @@
-from rich.console import Console
+import time
 
-from easyMirais.utils.function import Logger
+from easyMirais.logger.logger import Logger
+from easyMirais.template.template import commandBody
+from websocket import WebSocketApp
 
 
 class FriendMessageType:
-    def __init__(self, send_target, kit_config):
+    def __init__(self, send_target, kit_config, ws: WebSocketApp):
         self.send_target = send_target
-        self.log = Logger(Console(), kit_config)
+        self.kit_config = kit_config
+        self.log = Logger(kit_config)
+        self.ws = ws
 
     def plain(self, text):
+        context = {
+            "sessionKey": self.kit_config["session"],
+            "target": self.send_target,
+            "messageChain": [
+                {"type": "Plain", "text": text},
+            ]
+        }
+
+        self.ws.send(commandBody(syncId="sendFriendMessagePlain", command="sendFriendMessage", content=context))
         self.log.info(text, "->", self.send_target, "正常", "(Plain / Friend)")
         # print(self.send_target, text)
+        time.sleep(1)
 
     def image(self):
         pass
