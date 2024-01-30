@@ -35,14 +35,20 @@ class Mirai(Init):
                 loadPluginsFile.init()
             except AttributeError:
                 self.logger.warning(
-                    "插件包", self.pluginFile[index], "未发现 init 函数",
+                    "插件包",
+                    self.pluginFile[index],
+                    "未发现 init 函数",
                 )
             except ModuleNotFoundError:
                 self.logger.warning(
-                    "插件包", self.pluginFile[index], "未发现 kit.py 文件",
+                    "插件包",
+                    self.pluginFile[index],
+                    "未发现 kit.py 文件",
                 )
                 break
-            File("./config/" + self.pluginFile[index]).edit("/config.json", "kit_name", self.pluginFile[index])
+            File("./config/" + self.pluginFile[index]).edit(
+                "/config.json", "kit_name", self.pluginFile[index]
+            )
             kit_config = File("./config/" + self.pluginFile[index]).read("/config.json")
             self.logger.info(
                 "插件包名:",
@@ -52,8 +58,14 @@ class Mirai(Init):
                 "是否输出日志:",
                 kit_config["echo_value"],
             )
-            getSession(self.pool, kit_config["botURI_value"], kit_config["botID_value"], kit_config["botKey_value"],
-                       kit_config["kit_name"], loadPluginsFile)
+            getSession(
+                self.pool,
+                kit_config["botURI_value"],
+                kit_config["botID_value"],
+                kit_config["botKey_value"],
+                kit_config["kit_name"],
+                loadPluginsFile,
+            )
 
             # try:
             #     function_list["message"] = loadPluginsFile.message(self.Plugins(self.pluginFile[index]))
@@ -71,10 +83,13 @@ class Mirai(Init):
         self.pluginFile = listPlugins()
         for pluginName in self.pluginFile:
             try:
-                self.pluginFunction.append(importlib.import_module("plugins." + pluginName + ".kit"))
+                self.pluginFunction.append(
+                    importlib.import_module("plugins." + pluginName + ".kit")
+                )
             except ModuleNotFoundError:
                 self.logger.error(
-                    "插件目录 plugins", "未发现有效 kit.py 文件",
+                    "插件目录 plugins",
+                    "未发现有效 kit.py 文件",
                 )
 
         return self.pluginFunction

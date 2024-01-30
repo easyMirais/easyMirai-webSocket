@@ -24,16 +24,29 @@ class Logger:
 
     def debug(self, *obj):
         if self.kitConfig["echo_value"]:
-            self.Logger.log("[ DEBUG", "/", self.kitConfig["kit_name"], "]:", *obj, style=DEBUG())
+            self.Logger.log(
+                "[ DEBUG", "/", self.kitConfig["kit_name"], "]:", *obj, style=DEBUG()
+            )
 
     def info(self, *obj):
         if self.kitConfig["echo_value"]:
-            self.Logger.log("[ INFO", "/", self.kitConfig["kit_name"], "]:", *obj, style=INFO())
+            self.Logger.log(
+                "[ INFO", "/", self.kitConfig["kit_name"], "]:", *obj, style=INFO()
+            )
 
     def warning(self, *obj):
         if self.kitConfig["echo_value"]:
-            self.Logger.log("[ WARNING", "/", self.kitConfig["kit_name"], "]:", *obj, style=WARNING())
+            self.Logger.log(
+                "[ WARNING",
+                "/",
+                self.kitConfig["kit_name"],
+                "]:",
+                *obj,
+                style=WARNING()
+            )
 
     def error(self, *obj):
         if self.kitConfig["echo_value"]:
-            self.Logger.log("[ ERROR", "/", self.kitConfig["kit_name"], "]:", *obj, style=ERROR())
+            self.Logger.log(
+                "[ ERROR", "/", self.kitConfig["kit_name"], "]:", *obj, style=ERROR()
+            )

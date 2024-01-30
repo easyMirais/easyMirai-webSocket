@@ -18,13 +18,17 @@ class FriendMessageType:
             "target": self.send_target,
             "messageChain": [
                 {"type": "Plain", "text": text},
-            ]
+            ],
         }
 
-        self.ws.send(commandBody(syncId="sendFriendMessagePlain", command="sendFriendMessage", content=context))
+        self.ws.send(
+            commandBody(
+                syncId="sendFriendMessagePlain",
+                command="sendFriendMessage",
+                content=context,
+            )
+        )
         self.log.info(text, "->", self.send_target, "正常", "(Plain / Friend)")
-        # print(self.send_target, text)
-        time.sleep(1)
 
     def image(self):
         pass

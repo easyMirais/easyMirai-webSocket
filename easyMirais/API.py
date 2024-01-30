@@ -41,7 +41,6 @@ class Init(ServerConfig):
 
 
 class Plugins(Init):
-
     @property
     def session(self) -> str:
         return self._file.read("/config.json")["session"]

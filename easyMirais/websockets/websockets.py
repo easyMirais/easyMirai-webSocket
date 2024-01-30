@@ -21,7 +21,9 @@ class WebSocketFunction:
         message = json.loads(message)
         if any("session" in d for d in message["data"]):
             if message["code"] == 0:
-                File("./config/" + self.kit_name).edit("/config.json", "session", message["session"])
+                File("./config/" + self.kit_name).edit(
+                    "/config.json", "session", message["session"]
+                )
         else:
             if any("syncId" in d for d in message):
                 if message["syncId"] == "-1":
@@ -36,12 +38,17 @@ class WebSocketFunction:
 
 
 def start_websocket_server(addr, bot_key, bot_id, kit_name, function):
-    WebSocketApp("ws://" + addr + "/all?verifyKey=" + bot_key + "&qq=" + str(bot_id),
-                 on_open=WebSocketFunction(kit_name, function).o_open,
-                 on_message=WebSocketFunction(kit_name, function).o_message
-                 ).run_forever()
+    WebSocketApp(
+        "ws://" + addr + "/all?verifyKey=" + bot_key + "&qq=" + str(bot_id),
+        on_open=WebSocketFunction(kit_name, function).o_open,
+        on_message=WebSocketFunction(kit_name, function).o_message,
+    ).run_forever()
 
 
-def getSession(pool_object: ThreadPoolExecutor, addr, bot_id, bot_key, kit_name, function):
+def getSession(
+        pool_object: ThreadPoolExecutor, addr, bot_id, bot_key, kit_name, function
+):
     # websocket.enableTrace(True)
-    pool_object.submit(start_websocket_server, addr, bot_key, bot_id, kit_name, function)
+    pool_object.submit(
+        start_websocket_server, addr, bot_key, bot_id, kit_name, function
+    )

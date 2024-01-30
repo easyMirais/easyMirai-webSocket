@@ -10,7 +10,9 @@ def listPlugins() -> list[str]:
     disDir("config")
 
     for pluginName in os.listdir("./plugins/"):
-        if not pluginName.startswith("_") and os.path.isdir("./plugins/" + str(pluginName)):
+        if not pluginName.startswith("_") and os.path.isdir(
+            "./plugins/" + str(pluginName)
+        ):
             disDir("config/" + str(pluginName))
             disFile(pluginName)
 

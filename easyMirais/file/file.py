@@ -6,7 +6,7 @@ defaultConfig = {
     "botKey_value": "",
     "kit_name": "",
     "echo_value": True,
-    "session": ""
+    "session": "",
 }
 
 
