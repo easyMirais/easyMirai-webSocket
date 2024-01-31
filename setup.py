@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+import easyMirais
 
 setup(
     name="easyMirai-websocket",
-    version="1.0.39A",
+    version=easyMirais.__version__(),
     author="HexMikuMax & ExMikuPro",
     author_email="sfnco-miku@outlook.com",
     python_requires=">=3.6.0",
@@ -19,4 +20,8 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
+    project_urls={
+        "Documentation": "https://easyMirai-websocket.readthedocs.io",
+        "Source": "https://github.com/easyMirais/easyMirai-webSocket",
+    },
 )
